@@ -1,56 +1,12 @@
-import { useEffect, useState } from "react"
-import { getAllTickets } from "./services/ticketServices.jsx"
 import "./App.css"
+import { CustomerList } from "./components/customers/CustomersList"
+import { EmployeeList } from "./components/employees/EmployeesList"
+import { TicketList } from "./components/tickets/TicketList"
 
-export const App = () => {
-  const [allTickets, setAllTickets] = useState([])
-  const [showEmergencyOnly, setShowEmergencyOnly] = useState(false)
-  const [filteredTickets, setFilteredTickets] = useState([])
-  
-  useEffect(() => {
-    getAllTickets().then((ticketsArray) => {
-      setAllTickets(ticketsArray)
-      console.log("Tickets Set!")
-    })
-  }, []) // ONLY runs on intial render of component 
-
-  useEffect(() => {
-    if (showEmergencyOnly) {
-      const emergencyTickets = allTickets.filter((ticket) => ticket.emergency === true)
-      setFilteredTickets(emergencyTickets)
-    } else {
-      setFilteredTickets(allTickets)
-    }
-  }, [showEmergencyOnly, allTickets])
-
-  return (<div className="tickets-container">
-    <h2>Tickets</h2>
-    <div>
-      <button className="filter-btn btn-primary" onClick={() => {
-        setShowEmergencyOnly(true)
-      }}
-      >Emergency</button>
-      <button className="filter-btn btn-info" onClick={() => {
-        setShowEmergencyOnly(false)
-      }}
-      >Show All</button>
-    </div>
-    <article className="tickets">
-      {filteredTickets.map((ticket) => {
-        return (
-          <section className="ticket" key={ticket.id}>
-            <header className="tickets-info">#{ticket.id}</header>
-            <div>{ticket.description}</div>
-            <footer>
-              <div>
-                <div className="ticket-info">emergency</div>
-                <div>{ticket.emergency ? "yes" : "no"}</div>
-              </div>
-            </footer>
-          </section>
-        )
-      })}
-    </article>
-  </div>
-  )
+export const App = () => { // rendered TicketList component
+  return <>
+  {/*<TicketList />*/} 
+  {/*<CustomerList />*/}
+  <EmployeeList />
+  </>
 }
