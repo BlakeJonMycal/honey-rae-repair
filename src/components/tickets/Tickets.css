@@ -56,3 +56,7 @@
   .filter-bar {
     display: flex;
   }
+  .btn-container {
+    display: flex;
+    justify-content: flex-end;
+  }

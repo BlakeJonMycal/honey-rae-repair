@@ -4,17 +4,20 @@ import "./Tickets.css"
 import { Ticket } from "./Ticket.jsx"
 import { TicketFilterBar } from "./TicketFilterBar.jsx"
 
-export const TicketList = () => { //ticket list component
+export const TicketList = ({ currentUser }) => { //ticket list component
   const [allTickets, setAllTickets] = useState([])
   const [showEmergencyOnly, setShowEmergencyOnly] = useState(false)
   const [filteredTickets, setFilteredTickets] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   
+const getAndSetTickets = () => {
+  getAllTickets().then((ticketsArray) => {
+    setAllTickets(ticketsArray)
+  })
+}
+
   useEffect(() => {
-    getAllTickets().then((ticketsArray) => {
-      setAllTickets(ticketsArray)
-      console.log("Tickets Set!")
-    })
+    getAndSetTickets()
   }, []) // ONLY runs on intial render of component 
 
   useEffect(() => {
@@ -41,7 +44,7 @@ export const TicketList = () => { //ticket list component
   <TicketFilterBar setShowEmergencyOnly={setShowEmergencyOnly} setSearchTerm={setSearchTerm}/>
     <article className="tickets">
       {filteredTickets.map((ticketObj) => {
-         return <Ticket ticket = {ticketObj} key={ticketObj.id}/> //rendered Ticket Component, for each ticketObject, return ticket component. passing a props object (Ticket is the key of the key vaule pairbeing passed, TicketObt is the value)
+         return <Ticket ticket = {ticketObj} currentUser={currentUser} getAndSetTickets={getAndSetTickets} key={ticketObj.id}/> //rendered Ticket Component, for each ticketObject, return ticket component. passing a props object (Ticket is the key of the key vaule pairbeing passed, TicketObt is the value)
         //the key prop above is now placed on the outer most layer of what is being mapped 
       })}
     </article>
